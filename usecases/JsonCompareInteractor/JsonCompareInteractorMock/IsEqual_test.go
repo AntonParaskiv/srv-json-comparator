@@ -33,14 +33,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				isEqual: true,
 			},
 			args: args{
-				first:  JsonEntityMock.New(),
-				second: JsonEntityMock.New(),
+				first:  JsonEntityMock.New().SetData("first"),
+				second: JsonEntityMock.New().SetData("second"),
 			},
 			wantIsEqual: true,
 			wantErr:     false,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New()).
-				SetSecond(JsonEntityMock.New()).
+				SetFirst(JsonEntityMock.New().SetData("first")).
+				SetSecond(JsonEntityMock.New().SetData("second")).
 				SetIsEqual(true),
 		},
 		{
@@ -49,14 +49,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				isEqual: false,
 			},
 			args: args{
-				first:  JsonEntityMock.New(),
-				second: JsonEntityMock.New(),
+				first:  JsonEntityMock.New().SetData("first"),
+				second: JsonEntityMock.New().SetData("second"),
 			},
 			wantIsEqual: false,
 			wantErr:     false,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New()).
-				SetSecond(JsonEntityMock.New()).
+				SetFirst(JsonEntityMock.New().SetData("first")).
+				SetSecond(JsonEntityMock.New().SetData("second")).
 				SetIsEqual(false),
 		},
 		{
@@ -66,14 +66,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				simulateErrorFlag: true,
 			},
 			args: args{
-				first:  JsonEntityMock.New(),
-				second: JsonEntityMock.New(),
+				first:  JsonEntityMock.New().SetData("first"),
+				second: JsonEntityMock.New().SetData("second"),
 			},
 			wantIsEqual: false,
 			wantErr:     true,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New()).
-				SetSecond(JsonEntityMock.New()).
+				SetFirst(JsonEntityMock.New().SetData("first")).
+				SetSecond(JsonEntityMock.New().SetData("second")).
 				SetIsEqual(false),
 		},
 	}

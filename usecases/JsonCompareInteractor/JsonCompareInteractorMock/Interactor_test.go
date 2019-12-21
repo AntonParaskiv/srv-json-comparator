@@ -43,10 +43,10 @@ func TestInteractor_SetFirst(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				first: JsonEntityMock.New(),
+				first: JsonEntityMock.New().SetData("first"),
 			},
 			want: &Interactor{
-				first: JsonEntityMock.New(),
+				first: JsonEntityMock.New().SetData("first"),
 			},
 		},
 	}
@@ -56,7 +56,7 @@ func TestInteractor_SetFirst(t *testing.T) {
 				first: tt.fields.first,
 			}
 			if got := i.SetFirst(tt.args.first); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SetFirst() = %v, want %v", got, tt.want)
+				t.Errorf("SetJsonEntityIn() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -79,10 +79,10 @@ func TestInteractor_SetSecond(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				second: JsonEntityMock.New(),
+				second: JsonEntityMock.New().SetData("second"),
 			},
 			want: &Interactor{
-				second: JsonEntityMock.New(),
+				second: JsonEntityMock.New().SetData("second"),
 			},
 		},
 	}
@@ -92,7 +92,7 @@ func TestInteractor_SetSecond(t *testing.T) {
 				second: tt.fields.second,
 			}
 			if got := i.SetSecond(tt.args.second); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SetSecond() = %v, want %v", got, tt.want)
+				t.Errorf("SetJsonEntityOut() = %v, want %v", got, tt.want)
 			}
 		})
 	}
