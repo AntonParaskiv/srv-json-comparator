@@ -7,11 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// TODO: move mock-errors to dedicated module and incapsulate it
+
 func main() {
 	jsonArrayToObjectConvertInteractor := JsonArrayToObjectConvertInteractor.New()
 	jsonCompareInteractor := JsonCompareInteractor.New().SetArrayToObjectConverter(jsonArrayToObjectConvertInteractor)
 	webService := WebService.New().SetJsonCompareInteractor(jsonCompareInteractor)
 
+	// TODO: move WebServer to infrastructure
 	r := gin.Default()
 	r.POST("/", webService.BaseHandler)
 	// TODO: handle error

@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// TODO: cover tests
 func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntity.JsonEntity) (jsonEntityOut JsonEntity.JsonEntity, err error) {
 	switch jsonEntityIn.(type) {
 
@@ -37,6 +38,7 @@ func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntity.JsonEntity) (
 	return
 }
 
+// TODO: cover tests
 func (i *Interactor) convertArrayToObject(arrayIn *JsonArray.JsonArray) (objectOut *JsonObject.JsonObject, err error) {
 	objectOut = JsonObject.New()
 
@@ -60,6 +62,7 @@ func (i *Interactor) convertArrayToObject(arrayIn *JsonArray.JsonArray) (objectO
 	return
 }
 
+// TODO: cover tests
 func (i *Interactor) convertObjectToObject(objectIn *JsonObject.JsonObject) (objectOut *JsonObject.JsonObject, err error) {
 	objectOut = objectIn
 
@@ -76,6 +79,7 @@ func (i *Interactor) convertObjectToObject(objectIn *JsonObject.JsonObject) (obj
 	return
 }
 
+// TODO: cover tests
 func (i *Interactor) getEntityHash(entity JsonEntity.JsonEntity) (hash string, err error) {
 	// TODO: replace with i.jsonMarshaller
 	entityJsoned, err := json.Marshal(entity)
@@ -99,6 +103,7 @@ func createFieldKeyForHash(object *JsonObject.JsonObject, hash string) (key stri
 	return
 }
 
+// TODO: move hasher to dedicated module
 func getByteSliceHash(data []byte) string {
 	hasher := md5.New()
 	hasher.Write(data)

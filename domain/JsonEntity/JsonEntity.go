@@ -13,6 +13,7 @@ func New() (je *JsonEntity) {
 	return
 }
 
+// TODO: make test
 func NewFromInterface(entityInterface interface{}) (je JsonEntity) {
 	je = new(JsonEntity)
 	switch entityInterface.(type) {
