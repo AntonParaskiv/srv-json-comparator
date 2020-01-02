@@ -1,8 +1,10 @@
 package JsonArrayToObjectConvertInteractorMock
 
-import "github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
+import (
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
+)
 
-func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntityInterace.JsonEntity) (jsonEntityOut JsonEntityInterace.JsonEntity, err error) {
+func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntity.JsonEntity) (jsonEntityOut JsonEntity.JsonEntity, err error) {
 	i.SetJsonEntityIn(jsonEntityIn)
 	jsonEntityOut = i.jsonEntityOut
 

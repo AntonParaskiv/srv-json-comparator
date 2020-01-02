@@ -1,8 +1,7 @@
 package JsonCompareInteractorMock
 
 import (
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityMock"
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"github.com/AntonParaskiv/srv-json-comparator/usecases/JsonCompareInteractor/JsonCompareInteractorInterface"
 	"reflect"
 	"testing"
@@ -10,14 +9,14 @@ import (
 
 func TestInteractor_IsEqual(t *testing.T) {
 	type fields struct {
-		first             JsonEntityInterace.JsonEntity
-		second            JsonEntityInterace.JsonEntity
+		first             JsonEntity.JsonEntity
+		second            JsonEntity.JsonEntity
 		isEqual           bool
 		simulateErrorFlag bool
 	}
 	type args struct {
-		first  JsonEntityInterace.JsonEntity
-		second JsonEntityInterace.JsonEntity
+		first  JsonEntity.JsonEntity
+		second JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name           string
@@ -33,14 +32,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				isEqual: true,
 			},
 			args: args{
-				first:  JsonEntityMock.New().SetData("first"),
-				second: JsonEntityMock.New().SetData("second"),
+				first:  JsonEntity.NewFromInterface("first"),
+				second: JsonEntity.NewFromInterface("second"),
 			},
 			wantIsEqual: true,
 			wantErr:     false,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New().SetData("first")).
-				SetSecond(JsonEntityMock.New().SetData("second")).
+				SetFirst(JsonEntity.NewFromInterface("first")).
+				SetSecond(JsonEntity.NewFromInterface("second")).
 				SetIsEqual(true),
 		},
 		{
@@ -49,14 +48,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				isEqual: false,
 			},
 			args: args{
-				first:  JsonEntityMock.New().SetData("first"),
-				second: JsonEntityMock.New().SetData("second"),
+				first:  JsonEntity.NewFromInterface("first"),
+				second: JsonEntity.NewFromInterface("second"),
 			},
 			wantIsEqual: false,
 			wantErr:     false,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New().SetData("first")).
-				SetSecond(JsonEntityMock.New().SetData("second")).
+				SetFirst(JsonEntity.NewFromInterface("first")).
+				SetSecond(JsonEntity.NewFromInterface("second")).
 				SetIsEqual(false),
 		},
 		{
@@ -66,14 +65,14 @@ func TestInteractor_IsEqual(t *testing.T) {
 				simulateErrorFlag: true,
 			},
 			args: args{
-				first:  JsonEntityMock.New().SetData("first"),
-				second: JsonEntityMock.New().SetData("second"),
+				first:  JsonEntity.NewFromInterface("first"),
+				second: JsonEntity.NewFromInterface("second"),
 			},
 			wantIsEqual: false,
 			wantErr:     true,
 			wantInteractor: New().
-				SetFirst(JsonEntityMock.New().SetData("first")).
-				SetSecond(JsonEntityMock.New().SetData("second")).
+				SetFirst(JsonEntity.NewFromInterface("first")).
+				SetSecond(JsonEntity.NewFromInterface("second")).
 				SetIsEqual(false),
 		},
 	}

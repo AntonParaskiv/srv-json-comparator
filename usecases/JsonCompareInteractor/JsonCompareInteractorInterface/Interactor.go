@@ -1,7 +1,9 @@
 package JsonCompareInteractorInterface
 
-import "github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
+import (
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
+)
 
 type Interactor interface {
-	IsEqual(first, second JsonEntityInterace.JsonEntity) (isEqual bool, err error)
+	IsEqual(first, second JsonEntity.JsonEntity) (isEqual bool, err error)
 }

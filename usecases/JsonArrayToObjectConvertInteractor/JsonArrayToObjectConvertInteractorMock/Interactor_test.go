@@ -1,8 +1,7 @@
 package JsonArrayToObjectConvertInteractorMock
 
 import (
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityMock"
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"reflect"
 	"testing"
 )
@@ -28,10 +27,10 @@ func TestNew(t *testing.T) {
 
 func TestInteractor_SetJsonEntityIn(t *testing.T) {
 	type fields struct {
-		jsonEntityIn JsonEntityInterace.JsonEntity
+		jsonEntityIn JsonEntity.JsonEntity
 	}
 	type args struct {
-		jsonEntityIn JsonEntityInterace.JsonEntity
+		jsonEntityIn JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name   string
@@ -43,10 +42,10 @@ func TestInteractor_SetJsonEntityIn(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				jsonEntityIn: JsonEntityMock.New().SetData("in"),
+				jsonEntityIn: JsonEntity.NewFromInterface("in"),
 			},
 			want: &Interactor{
-				jsonEntityIn: JsonEntityMock.New().SetData("in"),
+				jsonEntityIn: JsonEntity.NewFromInterface("in"),
 			},
 		},
 	}
@@ -64,10 +63,10 @@ func TestInteractor_SetJsonEntityIn(t *testing.T) {
 
 func TestInteractor_SetJsonEntityOut(t *testing.T) {
 	type fields struct {
-		jsonEntityOut JsonEntityInterace.JsonEntity
+		jsonEntityOut JsonEntity.JsonEntity
 	}
 	type args struct {
-		jsonEntityOut JsonEntityInterace.JsonEntity
+		jsonEntityOut JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name   string
@@ -79,10 +78,10 @@ func TestInteractor_SetJsonEntityOut(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				jsonEntityOut: JsonEntityMock.New().SetData("out"),
+				jsonEntityOut: JsonEntity.NewFromInterface("out"),
 			},
 			want: &Interactor{
-				jsonEntityOut: JsonEntityMock.New().SetData("out"),
+				jsonEntityOut: JsonEntity.NewFromInterface("out"),
 			},
 		},
 	}

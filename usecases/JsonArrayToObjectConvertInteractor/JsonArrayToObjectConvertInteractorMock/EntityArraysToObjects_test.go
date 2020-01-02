@@ -1,57 +1,56 @@
 package JsonArrayToObjectConvertInteractorMock
 
 import (
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityMock"
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"reflect"
 	"testing"
 )
 
 func TestInteractor_EntityArraysToObjects(t *testing.T) {
 	type fields struct {
-		jsonEntityIn      JsonEntityInterace.JsonEntity
-		jsonEntityOut     JsonEntityInterace.JsonEntity
+		jsonEntityIn      JsonEntity.JsonEntity
+		jsonEntityOut     JsonEntity.JsonEntity
 		simulateErrorFlag bool
 	}
 	type args struct {
-		jsonEntityIn JsonEntityInterace.JsonEntity
+		jsonEntityIn JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name              string
 		fields            fields
 		args              args
-		wantJsonEntityOut JsonEntityInterace.JsonEntity
+		wantJsonEntityOut JsonEntity.JsonEntity
 		wantErr           bool
 		wantInteractor    *Interactor
 	}{
 		{
 			name: "Success",
 			fields: fields{
-				jsonEntityOut: JsonEntityMock.New().SetData("out"),
+				jsonEntityOut: JsonEntity.NewFromInterface("out"),
 			},
 			args: args{
-				jsonEntityIn: JsonEntityMock.New().SetData("in"),
+				jsonEntityIn: JsonEntity.NewFromInterface("in"),
 			},
-			wantJsonEntityOut: JsonEntityMock.New().SetData("out"),
+			wantJsonEntityOut: JsonEntity.NewFromInterface("out"),
 			wantErr:           false,
 			wantInteractor: New().
-				SetJsonEntityIn(JsonEntityMock.New().SetData("in")).
-				SetJsonEntityOut(JsonEntityMock.New().SetData("out")),
+				SetJsonEntityIn(JsonEntity.NewFromInterface("in")).
+				SetJsonEntityOut(JsonEntity.NewFromInterface("out")),
 		},
 		{
 			name: "Error",
 			fields: fields{
-				jsonEntityOut:     JsonEntityMock.New().SetData("out"),
+				jsonEntityOut:     JsonEntity.NewFromInterface("out"),
 				simulateErrorFlag: true,
 			},
 			args: args{
-				jsonEntityIn: JsonEntityMock.New().SetData("in"),
+				jsonEntityIn: JsonEntity.NewFromInterface("in"),
 			},
-			wantJsonEntityOut: JsonEntityMock.New().SetData("out"),
+			wantJsonEntityOut: JsonEntity.NewFromInterface("out"),
 			wantErr:           true,
 			wantInteractor: New().
-				SetJsonEntityIn(JsonEntityMock.New().SetData("in")).
-				SetJsonEntityOut(JsonEntityMock.New().SetData("out")),
+				SetJsonEntityIn(JsonEntity.NewFromInterface("in")).
+				SetJsonEntityOut(JsonEntity.NewFromInterface("out")),
 		},
 	}
 	for _, tt := range tests {

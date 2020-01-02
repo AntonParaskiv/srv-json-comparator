@@ -1,8 +1,7 @@
 package JsonCompareInteractorMock
 
 import (
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
-	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityMock"
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"reflect"
 	"testing"
 )
@@ -28,10 +27,10 @@ func TestNew(t *testing.T) {
 
 func TestInteractor_SetFirst(t *testing.T) {
 	type fields struct {
-		first JsonEntityInterace.JsonEntity
+		first JsonEntity.JsonEntity
 	}
 	type args struct {
-		first JsonEntityInterace.JsonEntity
+		first JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name   string
@@ -43,10 +42,10 @@ func TestInteractor_SetFirst(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				first: JsonEntityMock.New().SetData("first"),
+				first: JsonEntity.NewFromInterface("first"),
 			},
 			want: &Interactor{
-				first: JsonEntityMock.New().SetData("first"),
+				first: JsonEntity.NewFromInterface("first"),
 			},
 		},
 	}
@@ -64,10 +63,10 @@ func TestInteractor_SetFirst(t *testing.T) {
 
 func TestInteractor_SetSecond(t *testing.T) {
 	type fields struct {
-		second JsonEntityInterace.JsonEntity
+		second JsonEntity.JsonEntity
 	}
 	type args struct {
-		second JsonEntityInterace.JsonEntity
+		second JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name   string
@@ -79,10 +78,10 @@ func TestInteractor_SetSecond(t *testing.T) {
 			name:   "Success",
 			fields: fields{},
 			args: args{
-				second: JsonEntityMock.New().SetData("second"),
+				second: JsonEntity.NewFromInterface("second"),
 			},
 			want: &Interactor{
-				second: JsonEntityMock.New().SetData("second"),
+				second: JsonEntity.NewFromInterface("second"),
 			},
 		},
 	}

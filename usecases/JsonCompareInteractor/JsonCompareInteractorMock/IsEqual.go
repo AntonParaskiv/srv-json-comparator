@@ -1,8 +1,10 @@
 package JsonCompareInteractorMock
 
-import "github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
+import (
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
+)
 
-func (i *Interactor) IsEqual(first, second JsonEntityInterace.JsonEntity) (isEqual bool, err error) {
+func (i *Interactor) IsEqual(first, second JsonEntity.JsonEntity) (isEqual bool, err error) {
 	i.SetFirst(first)
 	i.SetSecond(second)
 	isEqual = i.isEqual

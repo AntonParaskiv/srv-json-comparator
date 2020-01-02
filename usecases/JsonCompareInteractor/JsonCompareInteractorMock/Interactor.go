@@ -1,10 +1,12 @@
 package JsonCompareInteractorMock
 
-import "github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity/JsonEntityInterace"
+import (
+	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
+)
 
 type Interactor struct {
-	first  JsonEntityInterace.JsonEntity
-	second JsonEntityInterace.JsonEntity
+	first  JsonEntity.JsonEntity
+	second JsonEntity.JsonEntity
 
 	isEqual bool
 
@@ -17,12 +19,12 @@ func New() (i *Interactor) {
 	return
 }
 
-func (i *Interactor) SetFirst(first JsonEntityInterace.JsonEntity) *Interactor {
+func (i *Interactor) SetFirst(first JsonEntity.JsonEntity) *Interactor {
 	i.first = first
 	return i
 }
 
-func (i *Interactor) SetSecond(second JsonEntityInterace.JsonEntity) *Interactor {
+func (i *Interactor) SetSecond(second JsonEntity.JsonEntity) *Interactor {
 	i.second = second
 	return i
 }
