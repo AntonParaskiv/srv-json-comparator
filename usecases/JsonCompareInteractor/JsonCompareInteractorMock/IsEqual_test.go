@@ -86,11 +86,11 @@ func TestInteractor_IsEqual(t *testing.T) {
 			}
 			gotIsEqual, err := i.IsEqual(tt.args.first, tt.args.second)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("IsEqual() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Handle() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if gotIsEqual != tt.wantIsEqual {
-				t.Errorf("IsEqual() gotIsEqual = %v, want %v", gotIsEqual, tt.wantIsEqual)
+				t.Errorf("Handle() gotIsEqual = %v, want %v", gotIsEqual, tt.wantIsEqual)
 			}
 			if !reflect.DeepEqual(i, tt.wantInteractor) {
 				t.Errorf("Interactor = %v, want %v", i, tt.wantInteractor)

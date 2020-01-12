@@ -1,9 +1,6 @@
 package JsonArrayToObjectConvertInteractor
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonArray"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
@@ -49,7 +46,7 @@ func (i *Interactor) convertArrayToObject(arrayIn *JsonArray.JsonArray) (objectO
 			return
 		}
 
-		hash, err := i.getEntityHash(value)
+		hash, err := i.hashRepository.GetHash(value)
 		if err != nil {
 			err = errors.Errorf("get hash of value %v failed", value)
 			return nil, err
@@ -79,18 +76,6 @@ func (i *Interactor) convertObjectToObject(objectIn *JsonObject.JsonObject) (obj
 	return
 }
 
-// TODO: cover tests
-func (i *Interactor) getEntityHash(entity JsonEntity.JsonEntity) (hash string, err error) {
-	// TODO: replace with i.jsonMarshaller
-	entityJsoned, err := json.Marshal(entity)
-	if err != nil {
-		err = errors.Errorf("marshal entity failed")
-		return "", err
-	}
-	hash = getByteSliceHash(entityJsoned)
-	return
-}
-
 // TODO: move function to object method
 func createFieldKeyForHash(object *JsonObject.JsonObject, hash string) (key string) {
 	for i := 1; true; i++ {
@@ -101,11 +86,4 @@ func createFieldKeyForHash(object *JsonObject.JsonObject, hash string) (key stri
 		break
 	}
 	return
-}
-
-// TODO: move hasher to dedicated module
-func getByteSliceHash(data []byte) string {
-	hasher := md5.New()
-	hasher.Write(data)
-	return hex.EncodeToString(hasher.Sum(nil))
 }
