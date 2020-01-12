@@ -39,20 +39,27 @@ func (ws *WebService) HandleFunc(path string, handler HandlerInterface.Handler) 
 // TODO: cover test
 func (ws *WebService) createWebServiceHandler(handler HandlerInterface.Handler) (serviceHandler func(responseWriter WebServerInterface.ResponseWriter, request WebServerInterface.Request)) {
 	serviceHandler = func(responseWriter WebServerInterface.ResponseWriter, request WebServerInterface.Request) {
+		if request.Headers().Get("Content-Type") != "application/json" {
+			// TODO: write error
+			return
+		}
+
 		requestHandler := handler.NewRequest()
 
-		err := ws.marshaller.UnMarshalReader(request.GetBody(), requestHandler)
+		err := ws.marshaller.UnMarshalReader(request.Body(), requestHandler)
 		if err != nil {
-			//http.Error(responseWriter.GetWriter(), err.Error(), http.StatusBadRequest)
+			//http.Error(responseWriter.Writer(), err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		response := handler.Handle(requestHandler)
-		err = ws.marshaller.MarshalWriter(responseWriter.GetWriter(), response)
+		err = ws.marshaller.MarshalWriter(responseWriter.Writer(), response)
 		if err != nil {
 			//http.Error(responseWriter, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		responseWriter.Headers().Add("Content-Type", "application/json")
 	}
 	return
 }

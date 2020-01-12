@@ -1,6 +1,7 @@
 package WebServerStd
 
 import (
+	"bytes"
 	"github.com/AntonParaskiv/srv-json-comparator/interfaces/WebService/WebServerInterface"
 	"net/http"
 )
@@ -48,9 +49,30 @@ func (ws *WebServer) HandleFunc(pattern string, serviceHandler func(WebServerInt
 
 func createServerHandler(serviceHandler func(WebServerInterface.ResponseWriter, WebServerInterface.Request)) (serverHandler func(http.ResponseWriter, *http.Request)) {
 	serverHandler = func(httpResponseWriter http.ResponseWriter, httpRequest *http.Request) {
-		responseWriter := NewResponseWriter().SetWriter(httpResponseWriter)
-		request := NewRequest().SetBody(httpRequest.Body)
+		requestHeaders := NewHeaders()
+		for key, valueList := range httpRequest.Header {
+			for _, value := range valueList {
+				requestHeaders.Add(key, value)
+			}
+		}
+		request := NewRequest().
+			SetBody(httpRequest.Body).
+			SetHeaders(requestHeaders)
+
+		writer := bytes.NewBuffer([]byte{})
+		responseHeaders := NewHeaders()
+		responseWriter := NewResponseWriter().
+			SetWriter(writer).
+			SetHeaders(responseHeaders)
+
 		serviceHandler(responseWriter, request)
+
+		for key, valueList := range *responseHeaders {
+			for _, value := range valueList {
+				httpResponseWriter.Header().Add(key, value)
+			}
+		}
+		httpResponseWriter.Write(writer.Bytes())
 	}
 	return
 }

@@ -11,11 +11,20 @@ type WebServer interface {
 }
 
 type Request interface {
-	GetBody() (body io.ReadCloser)
+	Body() (body io.ReadCloser)
+	Headers() (headers Headers)
 }
 
 type ResponseWriter interface {
-	GetWriter() (writer io.Writer)
+	Writer() (writer io.Writer)
+	Headers() (headers Headers)
+}
+
+type Headers interface {
+	Add(key, value string) Headers
+	Set(key, value string) Headers
+	Get(key string) (value string)
+	Del(key string) Headers
 }
 
 // TODO: write mock

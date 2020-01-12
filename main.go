@@ -24,7 +24,6 @@ import (
 
 // TODO: move mock-errors to dedicated module and incapsulate it
 // TODO: comment every package and type/func/method
-// TODO: Check/Set JSON headers
 // TODO: Add logger modules
 // TODO: Add Error modules
 
