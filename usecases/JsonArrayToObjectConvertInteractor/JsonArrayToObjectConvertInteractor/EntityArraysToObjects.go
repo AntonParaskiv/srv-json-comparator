@@ -5,7 +5,6 @@ import (
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonArray"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonObject"
-	"github.com/pkg/errors"
 )
 
 // TODO: cover tests
@@ -16,7 +15,7 @@ func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntity.JsonEntity) (
 		jsonArrayIn := jsonEntityIn.(*JsonArray.JsonArray)
 		jsonEntityOut, err = i.convertArrayToObject(jsonArrayIn)
 		if err != nil {
-			err = errors.Errorf("convert array to object failed: %s", err.Error())
+			err = fmt.Errorf("convert array to object failed: %s", err.Error())
 			return
 		}
 
@@ -24,7 +23,7 @@ func (i *Interactor) EntityArraysToObjects(jsonEntityIn JsonEntity.JsonEntity) (
 		jsonObjectIn := jsonEntityIn.(*JsonObject.JsonObject)
 		jsonEntityOut, err = i.convertObjectToObject(jsonObjectIn)
 		if err != nil {
-			err = errors.Errorf("convert object to object failed: %s", err.Error())
+			err = fmt.Errorf("convert object to object failed: %s", err.Error())
 			return
 		}
 
@@ -48,7 +47,7 @@ func (i *Interactor) convertArrayToObject(arrayIn *JsonArray.JsonArray) (objectO
 
 		hash, err := i.hashRepository.GetHash(value)
 		if err != nil {
-			err = errors.Errorf("get hash of value %v failed", value)
+			err = fmt.Errorf("get hash of value %v failed", value)
 			return nil, err
 		}
 

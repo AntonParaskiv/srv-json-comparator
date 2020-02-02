@@ -4,14 +4,21 @@ import (
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonArray"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonObject"
+	"github.com/AntonParaskiv/srv-json-comparator/infrastructure/EquallerReflect"
+	"github.com/AntonParaskiv/srv-json-comparator/infrastructure/HasherMd5"
+	"github.com/AntonParaskiv/srv-json-comparator/infrastructure/JsonMarshaller"
+	"github.com/AntonParaskiv/srv-json-comparator/interfaces/EntityEqualRepository/EntityEqualRepository"
+	"github.com/AntonParaskiv/srv-json-comparator/interfaces/HashRepository/HashRepository"
 	"github.com/AntonParaskiv/srv-json-comparator/usecases/JsonArrayToObjectConvertInteractor/JsonArrayToObjectConvertInteractor"
 	"github.com/AntonParaskiv/srv-json-comparator/usecases/JsonArrayToObjectConvertInteractor/JsonArrayToObjectConvertInteractorInterface"
+	"github.com/AntonParaskiv/srv-json-comparator/usecases/JsonCompareInteractor/EntityEqualRepositoryInterface"
 	"testing"
 )
 
 func TestInteractor_IsEqual(t *testing.T) {
 	type fields struct {
 		arrayToObjectConverter JsonArrayToObjectConvertInteractorInterface.Interactor
+		entityEqualRepository  EntityEqualRepositoryInterface.Repository
 	}
 	type args struct {
 		first  JsonEntity.JsonEntity
@@ -28,6 +35,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Simple field Equal",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first:  "myValue",
@@ -40,6 +48,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Simple field UnEqual",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first:  "myValue",
@@ -52,6 +61,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with one field Equal",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -66,6 +76,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with one field UnEqual",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -80,6 +91,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with multiple fields Equal",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -96,6 +108,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with multiple fields UnEqual",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -112,6 +125,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with object Equal",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -126,6 +140,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 			name: "Object with object UnEqual",
 			fields: fields{
 				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				entityEqualRepository:  EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -139,7 +154,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with one element Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -153,7 +174,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with one element UnEqual",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -167,7 +194,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with multiple elements Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -185,7 +218,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with multiple shuffled elements Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -203,7 +242,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with multiple elements UnEqual",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -221,7 +266,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array with arrays Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -273,7 +324,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Object with array Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -287,7 +344,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Array of Objects Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonArray.New().
@@ -301,7 +364,13 @@ func TestInteractor_IsEqual(t *testing.T) {
 		{
 			name: "Object-Array multiple levels Equal",
 			fields: fields{
-				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New(),
+				arrayToObjectConverter: JsonArrayToObjectConvertInteractor.New().
+					SetHashRepository(
+						HashRepository.New().
+							SetHasher(HasherMd5.New()).
+							SetMarshaller(JsonMarshaller.New()),
+					),
+				entityEqualRepository: EntityEqualRepository.New().SetEqualler(EquallerReflect.New()),
 			},
 			args: args{
 				first: JsonObject.New().
@@ -345,6 +414,7 @@ func TestInteractor_IsEqual(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			i := &Interactor{
 				arrayToObjectConverter: tt.fields.arrayToObjectConverter,
+				entityEqualRepository:  tt.fields.entityEqualRepository,
 			}
 			gotIsEqual, err := i.IsEqual(tt.args.first, tt.args.second)
 			if (err != nil) != tt.wantErr {

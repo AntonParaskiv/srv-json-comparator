@@ -1,8 +1,8 @@
 package JsonCompareInteractorMock
 
-import "github.com/pkg/errors"
-
-const ErrorSimulated = "simulated error"
+import (
+	"fmt"
+)
 
 func (i *Interactor) SimulateError(stepMatch int) *Interactor {
 	i.simulateErrorStepMatch = stepMatch
@@ -26,6 +26,6 @@ func (i *Interactor) IsSetSimulateError() (isSetSimulateError bool) {
 
 func (i *Interactor) Error() (err error) {
 	i.simulateErrorFlag = false
-	err = errors.Errorf(ErrorSimulated)
+	err = fmt.Errorf("simulated error")
 	return
 }

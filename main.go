@@ -43,7 +43,7 @@ func main() {
 	hasher = HasherMd5.New()
 
 	hashRepository = HashRepository.New().
-		SetJsonMarshaller(jsonMarshaller).
+		SetMarshaller(jsonMarshaller).
 		SetHasher(hasher)
 
 	jsonArrayToObjectConvertInteractor = JsonArrayToObjectConvertInteractor.New().

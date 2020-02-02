@@ -1,8 +1,8 @@
 package JsonCompareInteractor
 
 import (
+	"fmt"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
-	"github.com/pkg/errors"
 )
 
 // TODO: cover tests
@@ -13,7 +13,7 @@ func (i *Interactor) IsEqual(first, second JsonEntity.JsonEntity) (isEqual bool,
 	firstEntity := JsonEntity.NewFromInterface(first)
 	firstConverted, err = i.arrayToObjectConverter.EntityArraysToObjects(firstEntity)
 	if err != nil {
-		err = errors.Errorf("convert first entity failed: %s", err.Error())
+		err = fmt.Errorf("convert first entity failed: %s", err.Error())
 		return
 	}
 
@@ -21,7 +21,7 @@ func (i *Interactor) IsEqual(first, second JsonEntity.JsonEntity) (isEqual bool,
 	secondEntity := JsonEntity.NewFromInterface(second)
 	secondConverted, err = i.arrayToObjectConverter.EntityArraysToObjects(secondEntity)
 	if err != nil {
-		err = errors.Errorf("convert second entity failed: %s", err.Error())
+		err = fmt.Errorf("convert second entity failed: %s", err.Error())
 		return
 	}
 

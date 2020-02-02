@@ -4,16 +4,24 @@ import (
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonArray"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonObject"
+	"github.com/AntonParaskiv/srv-json-comparator/infrastructure/HasherMd5"
+	"github.com/AntonParaskiv/srv-json-comparator/infrastructure/JsonMarshaller"
+	"github.com/AntonParaskiv/srv-json-comparator/interfaces/HashRepository/HashRepository"
+	"github.com/AntonParaskiv/srv-json-comparator/usecases/JsonArrayToObjectConvertInteractor/HashRepositoryInterface"
 	"reflect"
 	"testing"
 )
 
 func TestInteractor_EntityArraysToObjects(t *testing.T) {
+	type fields struct {
+		hashRepository HashRepositoryInterface.Repository
+	}
 	type args struct {
 		jsonEntityIn JsonEntity.JsonEntity
 	}
 	tests := []struct {
 		name              string
+		fields            fields
 		args              args
 		wantJsonEntityOut JsonEntity.JsonEntity
 		wantErr           bool
@@ -62,6 +70,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Array with one element",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonArray.New().
 					Add("first"),
@@ -72,6 +85,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Array with multiple elements",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonArray.New().
 					Add("first").
@@ -86,6 +104,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Array with same elements",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonArray.New().
 					Add("first").
@@ -100,6 +123,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Array with arrays",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonArray.New().
 					Add(JsonArray.New().
@@ -148,6 +176,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Object with array",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonObject.New().
 					Add("first", JsonArray.New().Add("second")),
@@ -158,6 +191,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Array of Objects",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonArray.New().
 					Add(JsonObject.New().Add("first", "myValue")),
@@ -168,6 +206,11 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 		},
 		{
 			name: "Object-Array multiple levels",
+			fields: fields{
+				hashRepository: HashRepository.New().
+					SetHasher(HasherMd5.New()).
+					SetMarshaller(JsonMarshaller.New()),
+			},
 			args: args{
 				jsonEntityIn: JsonObject.New().
 					Add("level", "first").
@@ -209,7 +252,9 @@ func TestInteractor_EntityArraysToObjects(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			i := &Interactor{}
+			i := &Interactor{
+				hashRepository: tt.fields.hashRepository,
+			}
 			gotJsonEntityOut, err := i.EntityArraysToObjects(tt.args.jsonEntityIn)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("EntityArraysToObjects() error = %v, wantErr %v", err, tt.wantErr)

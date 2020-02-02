@@ -1,15 +1,16 @@
 package HashRepository
 
 import (
+	"errors"
+	"fmt"
 	"github.com/AntonParaskiv/srv-json-comparator/domain/JsonEntity"
 	"github.com/AntonParaskiv/srv-json-comparator/interfaces/HashRepository/HasherInterface"
 	"github.com/AntonParaskiv/srv-json-comparator/interfaces/HashRepository/MarshallerInterface"
-	"github.com/pkg/errors"
 )
 
 type Repository struct {
-	jsonMarshaller MarshallerInterface.Marshaller
-	hasher         HasherInterface.Hasher
+	marshaller MarshallerInterface.Marshaller
+	hasher     HasherInterface.Hasher
 }
 
 func New() (r *Repository) {
@@ -17,8 +18,8 @@ func New() (r *Repository) {
 	return
 }
 
-func (r *Repository) SetJsonMarshaller(jsonMarshaller MarshallerInterface.Marshaller) *Repository {
-	r.jsonMarshaller = jsonMarshaller
+func (r *Repository) SetMarshaller(marshaller MarshallerInterface.Marshaller) *Repository {
+	r.marshaller = marshaller
 	return r
 }
 
@@ -28,13 +29,27 @@ func (r *Repository) SetHasher(hasher HasherInterface.Hasher) *Repository {
 }
 
 func (r *Repository) GetHash(entity JsonEntity.JsonEntity) (hash string, err error) {
-	var entityJsoned []byte
+	var entityMarshalled []byte
 
-	entityJsoned, err = r.jsonMarshaller.MarshalBytes(entity)
+	entityMarshalled, err = r.marshaller.MarshalBytes(entity)
 	if err != nil {
-		err = errors.Errorf("marshal entity failed")
+		err = errorMarshalEntityFailed(err)
 		return
 	}
-	hash = r.hasher.CreateHash(entityJsoned)
+	hash = r.hasher.CreateHash(entityMarshalled)
+	return
+}
+
+func errorMarshalEntityFailed(wrapErr error) (err error) {
+	err = wrapError("marshal entity failed", wrapErr)
+	return err
+}
+
+func wrapError(msg string, wrapErr error) (err error) {
+	if wrapErr == nil {
+		err = errors.New(msg)
+	} else {
+		err = fmt.Errorf("%s: %w", msg, wrapErr)
+	}
 	return
 }

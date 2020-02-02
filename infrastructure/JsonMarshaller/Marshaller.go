@@ -2,7 +2,7 @@ package JsonMarshaller
 
 import (
 	"encoding/json"
-	"github.com/pkg/errors"
+	"fmt"
 	"io"
 )
 
@@ -17,7 +17,7 @@ func New() (m *Marshaller) {
 func (m *Marshaller) MarshalWriter(writer io.Writer, data interface{}) (err error) {
 	err = json.NewEncoder(writer).Encode(data)
 	if err != nil {
-		err = errors.Errorf("marshal failed: %s", err.Error())
+		err = fmt.Errorf("marshal failed: %s", err.Error())
 		return
 	}
 	return
@@ -26,7 +26,7 @@ func (m *Marshaller) MarshalWriter(writer io.Writer, data interface{}) (err erro
 func (m *Marshaller) UnMarshalReader(reader io.ReadCloser, data interface{}) (err error) {
 	err = json.NewDecoder(reader).Decode(data)
 	if err != nil {
-		err = errors.Errorf("unMarshal failed: %s", err.Error())
+		err = fmt.Errorf("unMarshal failed: %s", err.Error())
 		return
 	}
 	return
@@ -35,7 +35,7 @@ func (m *Marshaller) UnMarshalReader(reader io.ReadCloser, data interface{}) (er
 func (m *Marshaller) MarshalBytes(data interface{}) (marshalledData []byte, err error) {
 	marshalledData, err = json.Marshal(data)
 	if err != nil {
-		err = errors.Errorf("marshal failed: %s", err.Error())
+		err = fmt.Errorf("marshal failed: %s", err.Error())
 		return
 	}
 	return
@@ -44,7 +44,7 @@ func (m *Marshaller) MarshalBytes(data interface{}) (marshalledData []byte, err 
 func (m *Marshaller) UnMarshalBytes(marshalledData []byte, data interface{}) (err error) {
 	err = json.Unmarshal(marshalledData, data)
 	if err != nil {
-		err = errors.Errorf("unMarshal failed: %s", err.Error())
+		err = fmt.Errorf("unMarshal failed: %s", err.Error())
 		return
 	}
 	return

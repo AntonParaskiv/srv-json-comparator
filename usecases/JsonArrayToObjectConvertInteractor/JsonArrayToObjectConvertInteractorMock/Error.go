@@ -1,6 +1,8 @@
 package JsonArrayToObjectConvertInteractorMock
 
-import "github.com/pkg/errors"
+import (
+	"fmt"
+)
 
 const ErrorSimulated = "simulated error"
 
@@ -26,6 +28,6 @@ func (i *Interactor) IsSetSimulateError() (isSetSimulateError bool) {
 
 func (i *Interactor) Error() (err error) {
 	i.simulateErrorFlag = false
-	err = errors.Errorf(ErrorSimulated)
+	err = fmt.Errorf(ErrorSimulated)
 	return
 }
